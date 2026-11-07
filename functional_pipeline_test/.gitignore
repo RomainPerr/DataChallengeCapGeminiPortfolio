@@ -1,0 +1,4 @@
+# Generated report PDFs, LaTeX build files, plots, and exported incident data.
+reports/
+functional_pipeline_test/cache/
+cache/

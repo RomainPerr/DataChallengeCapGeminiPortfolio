@@ -1,0 +1,363 @@
+<mxfile host="65bd71144e">
+    <diagram id="functional-pipeline" name="Functional incident preprocessing">
+        <mxGraphModel dx="4192" dy="1776" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3400" pageHeight="1200" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="digitalpdf" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="data/pdf_digital/*.pdf" vertex="1">
+                    <mxGeometry height="65" width="220" x="-280" y="145" as="geometry"/>
+                </mxCell>
+                <mxCell id="digitalget" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="get_pdf_digital_incidents_csv()&#xa;&#xa;digital_pdf_dir_to_csv()&#xa;digital_pdf_to_table_record()" vertex="1">
+                    <mxGeometry height="95" width="300" x="310" y="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="digitaldata" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="DataFrame&#xa;600 parsed digital incidents" vertex="1">
+                    <mxGeometry height="65" width="250" x="790" y="145" as="geometry"/>
+                </mxCell>
+                <mxCell id="scanpdf" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="data/pdf_scan/*.pdf" vertex="1">
+                    <mxGeometry height="65" width="220" x="-280" y="450" as="geometry"/>
+                </mxCell>
+                <mxCell id="scanget" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="get_pdf_scan_incidents_csv()" vertex="1">
+                    <mxGeometry height="65" width="300" x="310" y="310" as="geometry"/>
+                </mxCell>
+                <mxCell id="scandata" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="DataFrame&#xa;600 parsed scanned incidents" vertex="1">
+                    <mxGeometry height="65" width="250" x="790" y="310" as="geometry"/>
+                </mxCell>
+                <mxCell id="source" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="data/incidents_students.csv&#xa;CSV: text reports + reference rows" vertex="1">
+                    <mxGeometry height="75" width="240" x="-280" y="-10" as="geometry"/>
+                </mxCell>
+                <mxCell id="merge" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="get_incidents_csv()&#xa;&#xa;Read source CSV, concatenate parsed reports,&#xa;deduplicate by incident_id" vertex="1">
+                    <mxGeometry height="115" width="350" x="1250" y="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="ocrdirectory" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ocr_directory(pdf_dir, ocr_json_dir)" vertex="1">
+                    <mxGeometry height="60" width="300" x="160" y="505" as="geometry"/>
+                </mxCell>
+                <mxCell id="ocrjson" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="data/pdf_scan/ocr_json/*.json" vertex="1">
+                    <mxGeometry height="55" width="260" x="320" y="620" as="geometry"/>
+                </mxCell>
+                <mxCell id="parseocrdirectory" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="parse_ocr_directory(ocr_json_dir, output_csv, reference_csv_path)" vertex="1">
+                    <mxGeometry height="60" width="300" x="520" y="505" as="geometry"/>
+                </mxCell>
+                <mxCell id="parseocrjson" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="parse_ocr_json(json_path) → dict | None" vertex="1">
+                    <mxGeometry height="60" width="300" x="520" y="740" as="geometry"/>
+                </mxCell>
+                <mxCell id="e1" edge="1" parent="1" source="digitalpdf" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" target="digitalget" value="PDF files">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e2" edge="1" parent="1" source="digitalget" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" target="digitaldata" value="DataFrame">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e4" edge="1" parent="1" source="scanget" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" target="scandata" value="DataFrame">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e5" edge="1" parent="1" source="source" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" target="merge" value="CSV">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e6" edge="1" parent="1" source="digitaldata" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" target="merge" value="DataFrame">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e7" edge="1" parent="1" source="scandata" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" target="merge" value="DataFrame">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e8" edge="1" parent="1" source="merge" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" value="DataFrame">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1760.000000000001" y="167.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e9" edge="1" parent="1" source="scanget" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;entryX=0.75;entryY=0;entryDx=0;entryDy=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" target="ocrdirectory" value="pdf_dir, ocr_json_dir">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e10" edge="1" parent="1" source="ocrdirectory" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" target="ocrjson" value="JSON files">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e11" edge="1" parent="1" source="ocrjson" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" target="parseocrdirectory" value="JSON file paths">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e12" edge="1" parent="1" source="parseocrdirectory" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" target="parseocrjson" value="JSON path per file">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e13" edge="1" parent="1" source="scanget" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;exitX=0.833;exitY=1.015;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.133;entryY=-0.067;entryDx=0;entryDy=0;entryPerimeter=0;" target="parseocrdirectory" value="ocr_json_dir, output_csv, reference_csv_path">
+                    <mxGeometry relative="1" x="0.0303" y="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="wF6Ks5uYfTz-gcCOL6nO-1" edge="1" parent="1" source="scanpdf" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;exitX=0.95;exitY=0.763;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="ocrdirectory" value="PDF files">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="230" y="469" as="sourcePoint"/>
+                        <mxPoint x="370" y="460" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="l34YOcj8BDR9k9GXcGzR-1" edge="1" parent="1" source="parseocrjson" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;entryX=0.797;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.8;exitY=-0.017;exitDx=0;exitDy=0;exitPerimeter=0;" target="parseocrdirectory" value="Dict&lt;div&gt;&lt;br&gt;&lt;/div&gt;">
+                    <mxGeometry relative="1" x="-0.0921" as="geometry">
+                        <mxPoint as="offset"/>
+                        <mxPoint x="760" y="680" as="sourcePoint"/>
+                        <mxPoint x="760" y="855" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-incidents-data" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="DataFrame&#xa;normalized incidents" vertex="1">
+                    <mxGeometry height="65" width="250" x="1760" y="135" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-prepare-embeddings" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="get_clusters_and_classified_incidents(&#xa;asset_type: str, config: ClusteringConfig | None, stopwords: Sequence[str],&#xa;min_cluster_size_start: int, max_cluster_ratio: float, embedding_loader: EmbeddingLoader,&#xa;fusion_validator: FusionValidator&#xa;) -&gt; ClustersAndClassifiedIncidents" vertex="1">
+                    <mxGeometry height="120" width="2450" x="2090" y="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-scan" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="scan_cluster_sizes(&#xa;documents: Sequence[str], embeddings: EmbeddingMatrix,&#xa;config: ClusteringConfig, stopwords: Sequence[str],&#xa;min_cluster_size_start: int, max_cluster_ratio: float&#xa;) -&gt; ClusteringScan" vertex="1">
+                    <mxGeometry height="110" width="760" x="2200" y="342.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-scan-data" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="ClustersAndClassifiedIncidents&#xa;scan + retained clusters + structural fusions +&#xa;fusion validation + selected cluster +&#xa;classified incidents" vertex="1">
+                    <mxGeometry height="105" width="360" x="4890" y="112.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-select-change-points" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="select_change_points(&#xa;scan: ClusteringScan&#xa;) -&gt; list[ClusteringCandidate]" vertex="1">
+                    <mxGeometry height="85" width="320" x="3030" y="355" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-detect-fusions" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="detect_cluster_fusions(&#xa;previous: ClusteringCandidate, current: ClusteringCandidate&#xa;) -&gt; list[ClusterFusion]" vertex="1">
+                    <mxGeometry height="85" width="390" x="3460" y="340" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-load-embeddings" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="load_or_create_embeddings(&#xa;documents: list[str], asset_type: str, batch_size: int&#xa;) -&gt; EmbeddingMatrix" vertex="1">
+                    <mxGeometry height="85" width="500" x="1960" y="-150" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-azure-embeddings" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="AzureOpenAI.embeddings.create(&#xa;model: str, input: list[str]&#xa;) -&gt; CreateEmbeddingResponse" vertex="1">
+                    <mxGeometry height="85" width="330" x="2060" y="-360" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-resolve-range" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="_resolve_cluster_size_range(&#xa;n_documents: int, min_cluster_size_start: int,&#xa;max_cluster_ratio: float&#xa;) -&gt; range" vertex="1">
+                    <mxGeometry height="95" width="410" x="2090" y="540" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-fit" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="_fit_one_cluster_size(&#xa;documents: Sequence[str], embeddings: EmbeddingMatrix,&#xa;min_cluster_size: int, config: ClusteringConfig, stopwords: Sequence[str]&#xa;) -&gt; ClusteringCandidate" vertex="1">
+                    <mxGeometry height="100" width="430" x="2550" y="515" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-build-model" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="build_topic_model(&#xa;min_cluster_size: int, config: ClusteringConfig, stopwords: Sequence[str]&#xa;) -&gt; BERTopic" vertex="1">
+                    <mxGeometry height="85" width="590" x="2130" y="690" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-fit-transform" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="BERTopic.fit_transform(&#xa;documents: list[str], embeddings: EmbeddingMatrix&#xa;) -&gt; tuple[TopicAssignments, ProbabilityMatrix | None]" vertex="1">
+                    <mxGeometry height="85" width="420" x="2750" y="690" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-build-umap" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="_build_umap_model(&#xa;config: ClusteringConfig&#xa;) -&gt; UMAP" vertex="1">
+                    <mxGeometry height="80" width="260" x="1980" y="860" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-build-hdbscan" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="_build_hdbscan_model(&#xa;min_cluster_size: int, config: ClusteringConfig&#xa;) -&gt; HDBSCAN" vertex="1">
+                    <mxGeometry height="80" width="300" x="2260" y="900" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-build-vectorizer" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="_build_vectorizer_model(&#xa;stopwords: Sequence[str], config: ClusteringConfig&#xa;) -&gt; CountVectorizer" vertex="1">
+                    <mxGeometry height="80" width="320" x="2605" y="890" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-is-change-point" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="_is_change_point(&#xa;previous: ClusteringCandidate, current: ClusteringCandidate&#xa;) -&gt; bool" vertex="1">
+                    <mxGeometry height="85" width="360" x="3020" y="515" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-fusion-sources" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="_source_topics_for_destination(&#xa;previous_topics: TopicAssignments, current_topics: TopicAssignments,&#xa;destination_topic_id: int&#xa;) -&gt; tuple[int, ...]" vertex="1">
+                    <mxGeometry height="95" width="430" x="3450" y="510" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-validate-fusions" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="validate_fusions_with_azure(&#xa;asset_type: str, incidents: DataFrame, candidates: Sequence[ClusteringCandidate],&#xa;fusions: Sequence[ClusterFusion], sample_size: int, random_seed: int,&#xa;client: Any | None, deployment: str | None&#xa;) -&gt; FusionValidationResult" vertex="1">
+                    <mxGeometry height="115" width="560" x="3930" y="-80" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-build-fusion-harness" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="build_fusion_validation_harness(&#xa;asset_type: str, incidents: DataFrame, candidates: Sequence[ClusteringCandidate],&#xa;fusions: Sequence[ClusterFusion], sample_size: int, random_seed: int&#xa;) -&gt; dict[str, object]" vertex="1">
+                    <mxGeometry height="105" width="560" x="3940" y="-260" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-azure-chat" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="AzureOpenAI.chat.completions.create(&#xa;model: str, messages: list[dict], response_format: dict, temperature: int&#xa;) -&gt; ChatCompletion" vertex="1">
+                    <mxGeometry height="90" width="560" x="3920" y="-410" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-data-to-embeddings" edge="1" parent="1" source="cluster-incidents-data" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" target="cluster-prepare-embeddings" value="incidents: DataFrame">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-orchestrator-embeddings" edge="1" parent="1" source="cluster-prepare-embeddings" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#9673a6;exitX=0.023;exitY=-0.018;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.396;entryY=0.994;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-load-embeddings" value="documents: list[str], asset_type: str, batch_size: int">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-embeddings-return" edge="1" parent="1" source="cluster-load-embeddings" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#9673a6;exitX=0.877;exitY=0.994;exitDx=0;exitDy=0;exitPerimeter=0;" value="embeddings: EmbeddingMatrix">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="2390" y="100" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-orchestrator-scan" edge="1" parent="1" source="cluster-prepare-embeddings" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.18;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-scan" value="documents, embeddings, config, stopwords, scan bounds">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-scan-to-data" edge="1" parent="1" source="cluster-prepare-embeddings" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;" target="cluster-scan-data" value="ClustersAndClassifiedIncidents">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-scan-return" edge="1" parent="1" source="cluster-scan" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.7;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.245;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-prepare-embeddings" value="scan: ClusteringScan">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-data-to-select" edge="1" parent="1" source="cluster-prepare-embeddings" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.42;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-select-change-points" value="scan: ClusteringScan">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-select-to-data" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.7;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.49;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-prepare-embeddings" value="clusters: list[ClusteringCandidate]">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="3280" y="350" as="sourcePoint"/>
+                        <mxPoint x="3250" y="230" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-data-to-fusions" edge="1" parent="1" source="cluster-prepare-embeddings" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.61;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-detect-fusions" value="previous, current: ClusteringCandidate">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-fusions-to-data" edge="1" parent="1" source="cluster-detect-fusions" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.856;exitY=0.012;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.692;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-prepare-embeddings" value="fusions: list[ClusterFusion]">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-orchestrator-validation" edge="1" parent="1" source="cluster-prepare-embeddings" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#82b366;exitX=0.829;exitY=-0.017;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.338;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-validate-fusions" value="asset_type, incidents, clusters, fusions">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-validation-return" edge="1" parent="1" source="cluster-validate-fusions" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#82b366;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.922;entryY=0.008;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-prepare-embeddings" value="fusion_validation: FusionValidationResult">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="4290" y="100" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-validation-harness" edge="1" parent="1" source="cluster-validate-fusions" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#82b366;exitX=0.29;exitY=0.013;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.268;entryY=1.048;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-build-fusion-harness" value="asset_type, incidents, candidates, fusions, sampling config">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="4090" y="-120" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-harness-return" edge="1" parent="1" source="cluster-build-fusion-harness" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#82b366;entryX=0.681;entryY=0.001;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.657;exitY=0.981;exitDx=0;exitDy=0;exitPerimeter=0;" target="cluster-validate-fusions" value="harness: dict[str, object]">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="4310" y="-120" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-validation-chat" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#9673a6;" value="model, messages, JSON response format, temperature=0">
+                    <mxGeometry relative="1" x="0.8684" y="8" as="geometry">
+                        <mxPoint as="offset"/>
+                        <mxPoint x="4040" y="-80" as="sourcePoint"/>
+                        <mxPoint x="4032" y="-310" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-chat-return" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#9673a6;entryX=0.798;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-validate-fusions" value="response: ChatCompletion">
+                    <mxGeometry relative="1" x="-0.8841" as="geometry">
+                        <mxPoint as="offset"/>
+                        <mxPoint x="4368" y="-320" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-embedding-api" edge="1" parent="1" source="cluster-load-embeddings" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#9673a6;entryX=0.296;entryY=0.984;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.399;exitY=0.014;exitDx=0;exitDy=0;exitPerimeter=0;" target="cluster-azure-embeddings" value="model: str, input: list[str]">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="2230" y="-180" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-api-return" edge="1" parent="1" source="cluster-azure-embeddings" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#9673a6;entryX=0.75;entryY=0;entryDx=0;entryDy=0;exitX=0.858;exitY=1.002;exitDx=0;exitDy=0;exitPerimeter=0;" target="cluster-load-embeddings" value="CreateEmbeddingResponse">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="2415" y="-270" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-scan-range" edge="1" parent="1" source="cluster-scan" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.15;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-resolve-range" value="n_documents, min_cluster_size_start, max_cluster_ratio">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-range-return" edge="1" parent="1" source="cluster-resolve-range" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.7;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.35;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-scan" value="cluster_sizes: range">
+                    <mxGeometry relative="1" x="-0.3982" y="-9" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-scan-fit" edge="1" parent="1" source="cluster-scan" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.65;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-fit" value="documents, embeddings, min_cluster_size, config, stopwords">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-fit-return" edge="1" parent="1" source="cluster-fit" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.7;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.85;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-scan" value="candidate: ClusteringCandidate">
+                    <mxGeometry relative="1" x="-0.5205" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-fit-build" edge="1" parent="1" source="cluster-fit" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.25;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-build-model" value="min_cluster_size, config, stopwords">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-build-return" edge="1" parent="1" source="cluster-build-model" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.7;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.4;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-fit" value="model: BERTopic">
+                    <mxGeometry relative="1" x="-0.1107" y="-15" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-fit-transform" edge="1" parent="1" source="cluster-fit" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.75;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-fit-transform" value="documents: list[str], embeddings: EmbeddingMatrix">
+                    <mxGeometry relative="1" x="-0.0687" y="-2" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-transform-return" edge="1" parent="1" source="cluster-fit-transform" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.7;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.9;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-fit" value="topics, probabilities">
+                    <mxGeometry relative="1" x="-0.1475" y="15" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-build-umap" edge="1" parent="1" source="cluster-build-model" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.1;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-build-umap" value="config: ClusteringConfig">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-umap-return" edge="1" parent="1" source="cluster-build-umap" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.7;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-build-model" value="UMAP">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-build-hdbscan" edge="1" parent="1" source="cluster-build-model" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.45;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-build-hdbscan" value="min_cluster_size: int, config: ClusteringConfig">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-hdbscan-return" edge="1" parent="1" source="cluster-build-hdbscan" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.7;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.55;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-build-model" value="HDBSCAN">
+                    <mxGeometry relative="1" x="-0.5037" y="-6" as="geometry">
+                        <mxPoint x="1" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-build-vectorizer" edge="1" parent="1" source="cluster-build-model" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.8;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-build-vectorizer" value="stopwords: Sequence[str], config: ClusteringConfig">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-vectorizer-return" edge="1" parent="1" source="cluster-build-vectorizer" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.7;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.9;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-build-model" value="CountVectorizer">
+                    <mxGeometry relative="1" x="-0.4363" y="3" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="cluster-edge-select-helper" edge="1" parent="1" source="cluster-select-change-points" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.3;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-is-change-point" value="previous, current: ClusteringCandidate">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-change-return" edge="1" parent="1" source="cluster-is-change-point" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.72;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.777;entryY=1.029;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-select-change-points" value="changed: bool">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-fusion-helper" edge="1" parent="1" source="cluster-detect-fusions" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.3;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.3;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-fusion-sources" value="previous_topics, current_topics, destination_topic_id">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="cluster-edge-fusion-sources-return" edge="1" parent="1" source="cluster-fusion-sources" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d79b00;exitX=0.814;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.87;entryY=0.98;entryDx=0;entryDy=0;entryPerimeter=0;" target="cluster-detect-fusions" value="source_topic_ids: tuple[int, ...]">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="hwmEfEYHwTbQ8LMjTrVf-1" edge="1" parent="1" source="cluster-scan-data" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" value="ClustersAndClassifiedIncidents">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="5370" y="260" as="sourcePoint"/>
+                        <mxPoint x="5550" y="165" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="report-content-generation" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="generate_report_content(&#xa;incidents: DataFrame, output_dir: str | Path, title: str&#xa;) -&gt; StatisticalReport (pdf_path=None)&#xa;&#xa;Generate two images + one test + LaTeX source; no LLM" vertex="1">
+                    <mxGeometry x="5550" y="105" width="800" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-source-data" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="StatisticalReport&#xa;report.tex + plots/*.pdf, *.png&#xa;statistical_tests.csv&#xa;Topic frequency + severity composition + topic-severity test" vertex="1">
+                    <mxGeometry x="6530" y="110" width="390" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-pdf-generation" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="compile_latex(&#xa;tex_path: Path&#xa;) -&gt; Path&#xa;&#xa;latexmk / pdflatex" vertex="1">
+                    <mxGeometry x="7120" y="105" width="500" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-final-pdf" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="report.pdf&#xa;Compiled statistical report" vertex="1">
+                    <mxGeometry x="7830" y="125" width="300" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-content-return" edge="1" parent="1" source="report-content-generation" target="report-source-data" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d6b656;" value="report: StatisticalReport">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-source-to-compiler" edge="1" parent="1" source="report-source-data" target="report-pdf-generation" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d6b656;" value="report.tex_path: Path">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-compiler-to-pdf" edge="1" parent="1" source="report-pdf-generation" target="report-final-pdf" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d6b656;" value="pdf_path: Path">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-statistical-tests" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="statistical_tests(&#xa;df: DataFrame&#xa;) -&gt; DataFrame&#xa;&#xa;Topic vs severity: chi-square / Monte Carlo" vertex="1">
+                    <mxGeometry x="5380" y="430" width="340" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-generate-plots" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="generate_plots(&#xa;df: DataFrame, output_dir: Path&#xa;) -&gt; list[tuple[str, str]]&#xa;&#xa;Topic-frequency + severity-composition plots" vertex="1">
+                    <mxGeometry x="5800" y="430" width="360" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-write-latex" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="write_latex(&#xa;df: DataFrame, tests: DataFrame,&#xa;figures: list[tuple[str, str]],&#xa;output_dir: Path, title: str&#xa;) -&gt; Path" vertex="1">
+                    <mxGeometry x="6260" y="430" width="420" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-call-tests" edge="1" parent="1" source="report-content-generation" target="report-statistical-tests" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d6b656;exitX=.10;exitY=1;entryX=0.3;entryY=0;" value="df: DataFrame">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-return-tests" edge="1" parent="1" source="report-statistical-tests" target="report-content-generation" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d6b656;exitX=0.7;exitY=0;entryX=.23;entryY=1;" value="tests: DataFrame (one test per asset)">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-call-plots" edge="1" parent="1" source="report-content-generation" target="report-generate-plots" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d6b656;exitX=.43;exitY=1;entryX=0.3;entryY=0;" value="df: DataFrame, output_dir: Path">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-return-plots" edge="1" parent="1" source="report-generate-plots" target="report-content-generation" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d6b656;exitX=0.7;exitY=0;entryX=.57;entryY=1;" value="figures: list[tuple[str, str]] (two PDF/PNG plots)">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-call-latex" edge="1" parent="1" source="report-content-generation" target="report-write-latex" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d6b656;exitX=.80;exitY=1;entryX=0.3;entryY=0;" value="df, tests, figures, output_dir, title">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-return-latex" edge="1" parent="1" source="report-write-latex" target="report-content-generation" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d6b656;exitX=0.7;exitY=0;entryX=.95;entryY=1;" value="tex_path: Path (report.tex)">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-template-file" parent="1" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;" value="report_template.tex&#xa;LaTeX layout template" vertex="1">
+                    <mxGeometry x="6330" y="700" width="280" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="report-template-input" edge="1" parent="1" source="report-template-file" target="report-write-latex" style="edgeStyle=none;html=1;endArrow=block;strokeColor=#d6b656;" value="template: UTF-8 text">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

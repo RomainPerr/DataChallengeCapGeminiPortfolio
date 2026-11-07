@@ -1,0 +1,44 @@
+[project]
+name = "datachallengecapgemini"
+version = "0.1.0"
+description = "Notre réponse au datachallenge capgemini"
+readme = "README.md"
+authors = [
+    { name = "gabriel", email = "gabriel.patry@etu.minesparis.psl.eu" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "bertopic>=0.16",
+    "hdbscan>=0.8",
+    "ipykernel>=6.29",
+    "kaleido>=1.5.0",
+    "langchain-openai>=1.7.2",
+    "langgraph>=1.2.16",
+    "matplotlib>=3.9",
+    "numpy>=1.26",
+    "openai>=1.50",
+    "pandas>=2.2",
+    "pdfplumber>=0.11.9",
+    "plotly>=7.1.0",
+    "python-dotenv>=1.0",
+    "surya-ocr>=0.22.1",
+    "tqdm>=4.66",
+    "umap-learn>=0.5",
+]
+
+[project.scripts]
+dc = "datachallengecapgemini:main"
+
+[build-system]
+requires = ["uv_build>=0.12.11,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "marimo>=0.25.1",
+    "ruff>=0.17.0",
+    "ty>=0.0.86",
+]
+mistral = [
+    "pydantic-ai-slim[mistral]>=2.55.0",
+]

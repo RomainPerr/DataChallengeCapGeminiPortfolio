@@ -1,0 +1,45 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Environment variables
+.env
+
+# embeddings
+*.npy
+
+# marimo
+__marimo__
+
+# data
+data
+
+# generated reports
+filled_templates/
+
+# mistral
+.vibe
+
+
+# --- Equipment analysis ---
+# Local files kept out of the repo
+.DS_Store
+.ipynb_checkpoints/
+*.ipynb
+/*.pdf
+/solar_report.md
+/requirements.txt
+/*.csv
+
+# Generated equipment reports (uv run dc-equipment)
+equipment_reports/
+
+# First prototype of the equipment analysis, replaced by src/ (local only)
+site_analysis/

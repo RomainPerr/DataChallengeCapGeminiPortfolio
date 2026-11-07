@@ -1,0 +1,13 @@
+Draw.io style guide
+
+- Flow goes from left to right.
+- Keep main pipeline functions on one horizontal line.
+- Place module-specific functions perpendicular to the main flow, grouped below their parent function.
+- Use straight connectors only. No curves.
+- Label incoming function arrows with the arguments being passed and outgoing function arrows with the returned value and type.
+- For an internal function call, draw one arrow from caller to callee for the arguments and one arrow from callee back to caller for the return value.
+- Label every function block with a concise typed contract: its arguments and its return type (`function(arguments) -> ReturnType`).
+- Draw files, datasets, and data types as ellipses.
+- Draw functions and API calls as square-cornered blocks.
+- Give each module its own color. Use the current light-blue blocks for preprocessing functions; keep data nodes white.
+- Keep cache files and cache-wrapper details out of the pipeline diagram.
